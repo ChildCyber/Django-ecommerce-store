@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -30,10 +31,8 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
-    # todo: use reverse function replace permalink
-    @models.permalink
     def get_absolute_url(self):
-        return 'catalog_category', (), {'category_slug': self.slug}
+        return reverse('catalog:catalog_category', kwargs={"category_slug": self.slug})
 
 
 class Product(models.Model):
@@ -68,9 +67,8 @@ class Product(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return 'catalog_product', (), {'product_slug': self.slug}
+        return reverse('catalog:catalog_product', kwargs={"product_slug": self.slug})
 
     def sale_price(self):
         if self.old_price > self.price:
