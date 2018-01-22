@@ -22,3 +22,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('catalog.urls', namespace='catalog')),
 ] + static(settings.STATIC_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = 'ecomstore.views.file_not_found_404'
