@@ -23,7 +23,12 @@
         Price: $ {{ p.price }}
     {% endif %}
     <br /><br />
-    [add to cart button]
+    <form method="post" action="." class="cart">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br />
+        <input type="submit" value="Add to Cart" name="submit" alt="Add to Cart" />
+    </form>
     <div class="cb"><br /><br /></div>
     <h3>Product Description</h3>
         {{ p.description }}
