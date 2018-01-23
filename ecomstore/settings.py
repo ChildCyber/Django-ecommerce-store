@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # user app
     'catalog.apps.CatalogConfig',
     'utils.apps.UtilsConfig',
+    'cart.apps.CartConfig',
 ]
 
 MIDDLEWARE = [
