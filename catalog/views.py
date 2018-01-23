@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 
+from cart import carts
+from catalog.forms import ProductAddToCartForm
 from catalog.models import Category, Product
 
 
@@ -24,4 +26,23 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
     page_title = p.name
     meta_keywords = p.meta_keywords
     meta_description = p.meta_description
+
+    if request.method == 'POST':
+        # add to cart
+        post_data = request.POST.copy()
+        form = ProductAddToCartForm(request, post_data)
+        if form.is_valid():
+            # add to cart and redirect to cart page
+            carts.add_to_cart(request)
+            # if test cookie worked, get rid of it
+            if request.session.test_cookie_worked():
+                request.session.delete_test_cookie()
+            return redirect('cart:show_cart')
+    else:
+        form = ProductAddToCartForm(request=request, label_suffix=':')
+    # assign the hidden input the product slug
+    form.fields['product_slug'].widget.attrs['value'] = product_slug
+    # set the test cookie on our first GET request
+    request.session.set_test_cookie()
+
     return render(request, template_name, context=locals())
