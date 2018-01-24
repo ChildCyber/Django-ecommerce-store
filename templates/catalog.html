@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load catalog_tags %}
+
 {% block site_wrapper %}
     <div id="main">
         <a href="#content" class="skip_link">Skip to main content</a>
@@ -21,7 +23,8 @@
                     [search box here]
                     <br/>
                     {#[category listing here]#}
-                    {% include 'tags/category_list.html' %}
+                    {#{% include 'tags/category_list.html' %}#}
+                    {% category_list request.path %}
                 </div>
             </div>
             <div id="content">

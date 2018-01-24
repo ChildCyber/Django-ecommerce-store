@@ -180,3 +180,28 @@ table#shopping_cart th.right, td.right {
 a.cart {
     color: DarkOrange;
 }
+
+/* category_list css styles */
+h3 {
+    background-color: #98AC5E;
+    color: White;
+    padding: 3px;
+    margin-bottom: 6px;
+}
+
+ul#categories li {
+    font-weight: bold;
+    color: #616161;
+}
+
+ul#categories li a {
+    text-decoration: underline;
+}
+
+div#footer a {
+    color: White;
+    font-size: small;
+    text-decoration: underline;
+    font-weight: normal;
+    margin-right: 10px;
+}
