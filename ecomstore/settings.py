@@ -144,3 +144,12 @@ META_DESCRIPTION = 'Modern Musician is an online supplier of instruments, sheet 
 # session
 SESSION_COOKIE_DAYS = 14
 SESSION_COOKIE_AGE = 60 * 60 * 24 * SESSION_COOKIE_DAYS
+
+# site id
+SITE_ID = 1
+
+# Authorize.Net API Credentials
+AUTHNET_POST_URL = 'sandbox.authorize.net'
+AUTHNET_POST_PATH = '/gateway/transact.dll'
+AUTHNET_LOGIN = ''
+AUTHNET_KEY = ''
