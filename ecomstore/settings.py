@@ -154,3 +154,6 @@ AUTHNET_POST_URL = 'sandbox.authorize.net'
 AUTHNET_POST_PATH = '/gateway/transact.dll'
 AUTHNET_LOGIN = ''
 AUTHNET_KEY = ''
+
+# Login
+LOGIN_REDIRECT_URL = '/accounts/my_account/'
