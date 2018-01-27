@@ -4,5 +4,25 @@
 	<li><a href="/privacy-policy/">Privacy</a></li>
 	<li><a href="/products/">Products</a></li>
 	<li><a href="/contact/">Contact</a></li>
+ 	<li>
+        <a href="{% url 'accounts:my_account' %}">My Account</a>
+    </li>
 </ul>
+<div class="fr">
+<ul>
+    <li>
+        {% if user.is_authenticated %}
+            {% url 'accounts:logout' as logout_url %}
+            <a href="{{ logout_url }}">Logout</a>
+        {% else %}
+            {% url 'accounts:register' as register_url %}
+            <a href="{{ register_url }}">Sign Up</a>
+            </li>
+            <li>
+            {% url 'accounts:login' as login_url %}
+            <a href="{{ login_url }}">Login</a>
+        {% endif %}
+    </li>
+</ul>
+</div>
 <div class="cb"></div>
