@@ -20,6 +20,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^pages/', include('django.contrib.flatpages.urls')),
     url(r'^', include('catalog.urls', namespace='catalog')),
     url(r'^cart/', include('cart.urls', namespace='cart')),
     url(r'^checkout/', include('checkout.urls', namespace='checkout')),
