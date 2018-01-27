@@ -90,4 +90,9 @@ def create_order(request, transaction_id):
         # all set, clear the cart
         carts.empty_cart(request)
 
+        # save profile info for future orders
+        if request.user.is_authenticated():
+            from accounts import profile
+            profile.set(request)
+
     return order

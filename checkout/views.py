@@ -3,6 +3,7 @@ from django.core import urlresolvers
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from accounts import profile
 from cart import carts
 from checkout import checkouts
 from checkout.forms import CheckoutForm
@@ -31,7 +32,11 @@ def show_checkout(request, template_name='checkout/checkout.html'):
         else:
             error_message = u'Correct the errors below'
     else:
-        form = CheckoutForm()
+        if request.user.is_authenticated():
+            user_profile = profile.retrieve(request)
+            form = CheckoutForm(instance=user_profile)
+        else:
+            form = CheckoutForm()
 
     page_title = 'Checkout'
 
