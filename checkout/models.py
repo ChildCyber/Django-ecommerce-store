@@ -5,6 +5,7 @@ import decimal
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from catalog.models import Product
@@ -76,7 +77,7 @@ class Order(BaseOrderInfo):
         return total
 
     def get_absolute_url(self):
-        return 'order_details', (), {'order_id': self.id}
+        return reverse('accounts:order_details', {'order_id': self.id})
 
 
 class OrderItem(models.Model):
