@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from catalog.managers import ActiveCategoryManager
+
 
 # Create your models here.
 class Category(models.Model):
@@ -39,6 +41,9 @@ class Product(models.Model):
     """
     商品
     """
+    objects = models.Manager()
+    active = ActiveCategoryManager()
+
     name = models.CharField(_(u'商品名称'), max_length=255, unique=True)
     slug = models.SlugField(_(u'slug'), max_length=255, unique=True,
                             help_text='Unique value for product page URL, created automatically from name.')
