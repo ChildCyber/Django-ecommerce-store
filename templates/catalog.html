@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load catalog_tags %}
+{% load search_tags %}
 
 {% block site_wrapper %}
     <div id="main">
@@ -21,7 +22,8 @@
         <div id="middle">
             <div id="sidebar">
                 <div class="sidebarIEPadder">
-                    [search box here]
+                    {#[search box here]#}
+                    {% search_box request %}
                     <br/>
                     {#[category listing here]#}
                     {#{% include 'tags/category_list.html' %}#}
