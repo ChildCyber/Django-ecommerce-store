@@ -26,6 +26,6 @@ urlpatterns = [
     url(r'^checkout/', include('checkout.urls', namespace='checkout')),
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'accounts/', include('django.contrib.auth.urls')),
-] + static(settings.STATIC_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'ecomstore.views.file_not_found_404'
