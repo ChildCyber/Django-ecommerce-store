@@ -158,3 +158,6 @@ AUTHNET_KEY = ''
 
 # Login
 LOGIN_REDIRECT_URL = '/accounts/my_account/'
+
+# PAGINATION
+PRODUCTS_PER_PAGE = 12
