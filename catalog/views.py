@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from cart import carts
 from catalog.forms import ProductAddToCartForm
 from catalog.models import Category, Product
+from stats import stats
 
 
 # Create your views here.
@@ -44,5 +45,6 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
     form.fields['product_slug'].widget.attrs['value'] = product_slug
     # set the test cookie on our first GET request
     request.session.set_test_cookie()
+    stats.log_product_view(request, p)
 
     return render(request, template_name, context=locals())
