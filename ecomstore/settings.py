@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'checkout.apps.CheckoutConfig',
     'accounts.apps.AccountsConfig',
     'search.apps.SearchConfig',
+    'stats.apps.StatsConfig',
 ]
 
 MIDDLEWARE = [
