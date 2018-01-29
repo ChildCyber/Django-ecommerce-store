@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from catalog.managers import ActiveCategoryManager
+from catalog.managers import ActiveCategoryManager, FeaturedProductManager
 
 
 # Create your models here.
@@ -44,6 +44,7 @@ class Product(models.Model):
     """
     objects = models.Manager()
     active = ActiveCategoryManager()
+    featured = FeaturedProductManager()
 
     name = models.CharField(_(u'商品名称'), max_length=255, unique=True)
     slug = models.SlugField(_(u'slug'), max_length=255, unique=True,

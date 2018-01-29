@@ -9,3 +9,12 @@ class ActiveCategoryManager(models.Manager):
 
     def get_query_set(self):
         return super(ActiveCategoryManager, self).get_query_set().filter(is_active=True)
+
+
+class FeaturedProductManager(models.Manager):
+    """
+    Manager class to return only those products where each instance is featured
+    """
+
+    def get_query_set(self):
+        return super(FeaturedProductManager, self).get_query_set().filter(is_active=True).filter(is_featured=True)
