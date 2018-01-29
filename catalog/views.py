@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import get_object_or_404, redirect, render
 
 from cart import carts
@@ -8,7 +9,13 @@ from stats import stats
 
 # Create your views here.
 def index(request, template_name="catalog/index.html"):
+    search_recs = stats.recommended_from_search(request)
+    featured = Product.featured.all()[0:settings.PRODUCTS_PER_ROW]
+    recently_viewed = stats.get_recently_viewed(request)
+    view_recs = stats.recommended_from_views(request)
+
     page_title = 'Musical Instruments and Sheet Music for Musicians'
+
     return render(request, template_name, locals())
 
 
