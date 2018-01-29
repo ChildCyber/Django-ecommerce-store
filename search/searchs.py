@@ -1,6 +1,7 @@
 from django.db.models import Q
 
 from catalog.models import Product
+from stats import stats
 from search.models import SearchTerm
 
 STRIP_WORDS = ['a', 'an', 'and', 'by', 'for', 'from', 'in', 'no', 'not',
@@ -16,7 +17,7 @@ def store(request, q):
         term = SearchTerm()
         term.q = q
         term.ip_address = request.META.get('REMOTE_ADDR')
-        # term.tracking_id = stats.tracking_id(request)
+        term.tracking_id = stats.tracking_id(request)
         term.user = None
         if request.user.is_authenticated():
             term.user = request.user
