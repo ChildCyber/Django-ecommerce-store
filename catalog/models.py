@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -82,3 +83,43 @@ class Product(models.Model):
             return self.price
         else:
             return None
+
+    # user recommendation part
+    def cross_sells(self):
+        """
+        gets other Product instances that have been combined with the current instance in past orders. Includes the orders
+        that have been placed by anonymous users that haven't registered
+        """
+        from checkout.models import Order, OrderItem
+        orders = Order.objects.filter(orderitem__product=self)
+        order_items = OrderItem.objects.filter(order__in=orders).exclude(product=self)
+        products = Product.active.filter(orderitem__in=order_items).distinct()
+        return products
+
+    # users who purchased this product also bought....
+    def cross_sells_user(self):
+        """
+        gets other Product instances that have been ordered by other registered customers who also ordered the current
+        instance. Uses all past orders of each registered customer and not just the order in which the current
+        instance was purchased
+        """
+        from checkout.models import Order, OrderItem
+        users = User.objects.filter(order__orderitem__product=self)
+        items = OrderItem.objects.filter(order__user__in=users).exclude(product=self)
+        products = Product.active.filter(orderitem__in=items).distinct()
+        return products
+
+    def cross_sells_hybrid(self):
+        """
+        gets other Product instances that have been both been combined with the current instance in orders placed by
+        unregistered customers, and all products that have ever been ordered by registered customers
+        """
+        from checkout.models import Order, OrderItem
+        from django.db.models import Q
+        orders = Order.objects.filter(orderitem__product=self)
+        users = User.objects.filter(order__orderitem__product=self)
+        items = OrderItem.objects.filter(Q(order__in=orders) |
+                                         Q(order__user__in=users)
+                                         ).exclude(product=self)
+        products = Product.active.filter(orderitem__in=items).distinct()
+        return products
