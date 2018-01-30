@@ -41,6 +41,28 @@
     <div class="cb"><br /><br /></div>
     <h3>Product Description</h3>
         {{ p.description }}
+    {#  tag part  #}
+    <div class="cb"><br /><br /></div>
+    <h3>Product Tags</h3>
+
+    <div id="tags">
+        {% for tag in p.tags %}
+            {% include 'catalog/tag_link.html' %}
+        {% endfor %}
+    </div>
+    <br />
+    {% if request.user.is_authenticated %}
+        <label for="id_tag">Tag this product (must be at least three characters):</label>
+        <br />
+        <input id="id_tag" type="text" />
+        <input type="submit" value="Tag It" id="add_tag" />
+
+    {% else %}
+        {% url 'accounts:login' as login_url %}
+        <a href="{{ login_url }}?next={{ request.path }}">
+            Log in to tag this product.
+        </a>
+    {% endif %}
 {#  review part  #}
     <div class="cb"><br /><br /></div>
     <h3>Product Reviews</h3>
