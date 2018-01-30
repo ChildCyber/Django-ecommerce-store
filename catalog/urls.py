@@ -13,4 +13,6 @@ urlpatterns = [
         name='catalog_product'),
     url(r'^review/product/add/$', csrf_exempt(views.add_review), name='add_review'),
     url(r'^tag/product/add/$', csrf_exempt(views.add_tag), name='add_tag'),
+    url(r'^tag_cloud/$', views.tag_cloud,  {'template_name': 'catalog/tag_cloud.html'}, name='tag_cloud'),
+    url(r'^tag/(?P<tag>[-\w]+)/$', views.tag,  {'template_name': 'catalog/tag.html'}, name='tag'),
 ]

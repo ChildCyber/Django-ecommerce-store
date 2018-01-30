@@ -10,6 +10,7 @@ from catalog.forms import ProductAddToCartForm, ProductReviewForm
 from catalog.models import Category, Product, ProductReview
 from stats import stats
 
+from tagging import utils
 from tagging.models import Tag, TaggedItem
 
 
@@ -119,3 +120,24 @@ def add_tag(request):
     else:
         response = {'success': 'False'}
     return JsonResponse(response, safe=False)
+
+
+def tag_cloud(request, template_name="catalog/tag_cloud.html"):
+    """
+    view containing a list of tags for active products, sized proportionately by relative
+    frequency
+    """
+    product_tags = Tag.objects.cloud_for_model(Product, steps=9,
+                                               distribution=utils.LOGARITHMIC,
+                                               filters={'is_active': True})
+    page_title = 'Product Tag Cloud'
+    return render(request, template_name, locals())
+
+
+def tag(request, tag, template_name="catalog/tag.html"):
+    """
+    view listing products that have been tagged with a given tag
+    """
+    products = TaggedItem.objects.get_by_model(Product.active, tag)
+    page_title = 'Products tagged with ' + tag
+    return render(request, template_name, locals())
