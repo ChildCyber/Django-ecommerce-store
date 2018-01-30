@@ -1,5 +1,9 @@
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template import Context
+from django.template.loader import get_template
 
 from cart import carts
 from catalog.forms import ProductAddToCartForm, ProductReviewForm
@@ -58,3 +62,32 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
     review_form = ProductReviewForm()
 
     return render(request, template_name, context=locals())
+
+
+@login_required
+def add_review(request):
+    """
+    AJAX view that takes a form POST from a user submitting a new product review;
+    requires a valid product slug and args from an instance of ProductReviewForm;
+    return a JSON response containing two variables: 'review', which contains
+    the rendered template of the product review to update the product page,
+    and 'success', a True/False value indicating if the save was successful.
+    """
+    form = ProductReviewForm(request.POST)
+    if form.is_valid():
+        review = form.save(commit=False)
+        slug = request.POST.get('slug')
+        product = Product.active.get(slug=slug)
+        review.user = request.user
+        review.product = product
+        review.save()
+
+        template = "catalog/product_review.html"
+        t = get_template(template)
+        html = t.render(Context({'review': review}))
+        response = {'success': 'True', 'html': html}
+
+    else:
+        html = form.errors.as_ul()
+        response = {'success': 'False', 'html': html}
+    return JsonResponse(response)
