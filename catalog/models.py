@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from catalog.managers import (ActiveCategoryManager, ActiveProductManager,
                               ActiveProductReviewManager,
                               FeaturedProductManager)
+from tagging.registry import register
 
 
 # Create your models here.
@@ -147,3 +148,5 @@ class ProductReview(models.Model):
 
     objects = models.Manager()
     approved = ActiveProductReviewManager()
+
+register(Product)

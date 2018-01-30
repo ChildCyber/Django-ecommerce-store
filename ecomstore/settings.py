@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'search.apps.SearchConfig',
     'stats.apps.StatsConfig',
+    # third party
+    'tagging',
 ]
 
 MIDDLEWARE = [
