@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^product/(?P<product_slug>[-\w]+)/$', views.show_product, {'template_name': 'catalog/product.html'},
         name='catalog_product'),
     url(r'^review/product/add/$', csrf_exempt(views.add_review), name='add_review'),
+    url(r'^tag/product/add/$', csrf_exempt(views.add_tag), name='add_tag'),
 ]

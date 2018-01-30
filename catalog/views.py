@@ -10,6 +10,8 @@ from catalog.forms import ProductAddToCartForm, ProductReviewForm
 from catalog.models import Category, Product, ProductReview
 from stats import stats
 
+from tagging.models import Tag, TaggedItem
+
 
 # Create your views here.
 def index(request, template_name="catalog/index.html"):
@@ -91,3 +93,29 @@ def add_review(request):
         html = form.errors.as_ul()
         response = {'success': 'False', 'html': html}
     return JsonResponse(response)
+
+
+@login_required
+def add_tag(request):
+    """
+    AJAX view that takes a form POST containing variables for a new product tag;
+    requires a valid product slug and comma-delimited tag list; returns a JSON response
+    containing two variables: 'success', indicating the status of save operation, and 'tag',
+    which contains rendered HTML of all product pages for updating the product page.
+    """
+    tags = request.POST.get('tag', '')
+    slug = request.POST.get('slug', '')
+    if len(tags) > 2:
+        p = Product.active.get(slug=slug)
+        html = u''
+        template = "catalog/tag_link.html"
+        t = get_template(template)
+        for tag in tags.split():
+            tag.strip(',')
+            Tag.objects.add_tag(p, tag)
+        for tag in p.tags:
+            html += t.render(Context({'tag': tag}))
+        response = {'success': 'True', 'html': html}
+    else:
+        response = {'success': 'False'}
+    return JsonResponse(response, safe=False)
