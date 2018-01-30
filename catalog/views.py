@@ -2,8 +2,8 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404, redirect, render
 
 from cart import carts
-from catalog.forms import ProductAddToCartForm
-from catalog.models import Category, Product
+from catalog.forms import ProductAddToCartForm, ProductReviewForm
+from catalog.models import Category, Product, ProductReview
 from stats import stats
 
 
@@ -53,5 +53,8 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
     # set the test cookie on our first GET request
     request.session.set_test_cookie()
     stats.log_product_view(request, p)
+    # product review
+    product_reviews = ProductReview.approved.filter(product=p).order_by('-date')
+    review_form = ProductReviewForm()
 
     return render(request, template_name, context=locals())
