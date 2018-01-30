@@ -6,7 +6,9 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from catalog.managers import ActiveCategoryManager, FeaturedProductManager
+from catalog.managers import (ActiveCategoryManager, ActiveProductManager,
+                              ActiveProductReviewManager,
+                              FeaturedProductManager)
 
 
 # Create your models here.
@@ -14,6 +16,9 @@ class Category(models.Model):
     """
     商品类别
     """
+    objects = models.Manager()
+    active = ActiveCategoryManager()
+
     name = models.CharField(_(u'类别名称'), max_length=50)
     slug = models.SlugField(_(u'slug'), max_length=50, unique=True,
                             help_text='Unique value for product page URL, created automatically from name.')
@@ -43,7 +48,7 @@ class Product(models.Model):
     商品
     """
     objects = models.Manager()
-    active = ActiveCategoryManager()
+    active = ActiveProductManager()
     featured = FeaturedProductManager()
 
     name = models.CharField(_(u'商品名称'), max_length=255, unique=True)
@@ -88,8 +93,8 @@ class Product(models.Model):
     # user recommendation part
     def cross_sells(self):
         """
-        gets other Product instances that have been combined with the current instance in past orders. Includes the orders
-        that have been placed by anonymous users that haven't registered
+        gets other Product instances that have been combined with the current instance in past orders.
+        Includes the orders that have been placed by anonymous users that haven't registered
         """
         from checkout.models import Order, OrderItem
         orders = Order.objects.filter(orderitem__product=self)
@@ -124,3 +129,21 @@ class Product(models.Model):
                                          ).exclude(product=self)
         products = Product.active.filter(orderitem__in=items).distinct()
         return products
+
+
+class ProductReview(models.Model):
+    """
+    model class containing product review data associated with a product instance
+    """
+    RATINGS = ((5, 5), (4, 4), (3, 3), (2, 2), (1, 1),)
+
+    product = models.ForeignKey(Product)
+    user = models.ForeignKey(User)
+    title = models.CharField(_(u'标题'), max_length=50)
+    date = models.DateTimeField(_(u'创建时间'), auto_now_add=True)
+    rating = models.PositiveSmallIntegerField(_(u'评分'), default=5, choices=RATINGS)
+    is_approved = models.BooleanField(_(u'通过'), default=True)
+    content = models.TextField(_(u'内容'), )
+
+    objects = models.Manager()
+    approved = ActiveProductReviewManager()
