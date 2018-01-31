@@ -2,3 +2,6 @@ Django==1.10
 django-tagging==0.4.6
 olefile==0.45.1
 Pillow==4.2.0
+pyasn1==0.4.2
+pycrypto==2.6.1
+python-keyczar==0.716
