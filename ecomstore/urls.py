@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'accounts/', include('django.contrib.auth.urls')),
     url(r'^search/', include('search.urls', namespace='search')),
+    url(r'^', include('marketing.urls', namespace='marketing')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'ecomstore.views.file_not_found_404'
