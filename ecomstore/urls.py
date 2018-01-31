@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'accounts/', include('django.contrib.auth.urls')),
     url(r'^search/', include('search.urls', namespace='search')),
+    url(r'^billing/', include('billing.urls', namespace='billing')),
     url(r'^', include('marketing.urls', namespace='marketing')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
