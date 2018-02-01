@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'stats.apps.StatsConfig',
     'marketing.apps.MarketingConfig',
     'billing.apps.BillingConfig',
+    'pay.apps.PayConfig',
     # third party
     'tagging',
 ]
