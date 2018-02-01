@@ -171,3 +171,7 @@ PRODUCTS_PER_PAGE = 12
 
 # Recommendation
 PRODUCTS_PER_ROW = 4
+
+# Alipay
+ALIPAY_APPID = ""
+ALIPAY_URL = "https://openapi.alipaydev.com/gateway.do"
